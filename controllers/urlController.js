@@ -37,7 +37,18 @@ async function getAnalytics(req,res){
     });
 }
 
+async function listAllUrl(req,res){
+    try{
+    const url = await Url.find()
+    res.json(url)
+    }
+    catch(err){
+        res.json({message:err.message})
+    }
+}
+
 module.exports = {
     GenerateNewShortUrl,
-    getAnalytics
+    getAnalytics,
+    listAllUrl
 }

@@ -8,8 +8,10 @@ const urlSchema = new mongoose.Schema({
     OriginalUrl:{
         type:String,required:true,unique:true,  
     },
-    visitHistory:[{timestamp:{type:Number}}],
-},{timestamps : true}
+    visitHistory:[{
+        timestamp:{type:Number}
+    }],
+},{timestamps : true} //Mongoose will automatically add createdAt and updatedAt fields to your documents.
 );
 
 const Url = mongoose.model("url",urlSchema);
