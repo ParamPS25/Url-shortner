@@ -1,5 +1,5 @@
 const Url = require("../models/urlModel");
-const {nanoid} = require("nanoid");
+//const {nanoid} = require("nanoid");
 
 function generateRandomString() {
     const length = 8;
@@ -25,6 +25,19 @@ async function GenerateNewShortUrl(req,res){
     res.json({id:newUrl.shortId});
 }
 
+async function getAnalytics(req,res){
+    const shortId = req.params.shortId;
+    if(!shortId) return res.json({err:"invalid shortId"});
+
+    const result = await Url.findOne({shortId});
+
+    res.json({
+        totalClicks : result.visitHistory.length,
+        analytics : result.visitHistory
+    });
+}
+
 module.exports = {
-    GenerateNewShortUrl
+    GenerateNewShortUrl,
+    getAnalytics
 }
