@@ -13,16 +13,32 @@ function generateRandomString() {
     return String(result);
 }
 
-async function GenerateNewShortUrl(req,res){
-    if(!req.body.OriginalUrl) return res.status(400).json({error:"url is required"});
+async function GenerateNewShortUrl(req, res) {
+    if (!req.body.originalUrl) {
+        return res.status(400).json({ error: "URL is required" });
+    }
 
-    const newUrl = new Url({
-        shortId : generateRandomString(),
-        OriginalUrl : req.body.OriginalUrl,
-        visitHistory : [],
-    });
-    await newUrl.save();
-    res.json({id:newUrl.shortId});
+    try {
+        // Check if the URL already exists
+        const existingUrl = await Url.findOne({ originalUrl: req.body.originalUrl });
+        if (existingUrl) {
+            return res.status(400).json({ error: "URL already exists" });
+        }
+
+        const newUrl = new Url({
+            shortId: generateRandomString(),
+            originalUrl: req.body.originalUrl,
+            visitHistory: [],
+        });
+
+        await newUrl.save();
+        res.render("home.ejs", {
+            id: newUrl.shortId
+        });
+    } 
+    catch (error) {
+        res.status(500).json({ error: "Internal Server Error" });
+    }
 }
 
 async function getAnalytics(req,res){
