@@ -9,4 +9,12 @@ router.get('/',async(req,res)=>{
     );
 })
 
+router.get('/signup',async(req,res)=>{
+    res.render("signup.ejs")
+})
+
+router.get('/login',async(req,res)=>{
+    res.render("login.ejs")
+})
+
 module.exports = router;

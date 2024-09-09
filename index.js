@@ -2,9 +2,12 @@ const mongoose = require("mongoose");
 const Url = require("./models/urlModel");
 const express = require("express");
 const bodyParser = require("body-parser");
+
+const path = require("path");
+
 const urlRoutes = require("./routes/urlRoutes");
 const staticRoutes = require("./routes/StaticRoutes");
-const path = require("path");
+const userRoutes = require("./routes/userRoutes");
 
 const app = express();
 
@@ -19,6 +22,8 @@ app.set("views",path.resolve(("./views")));
 app.use("/",staticRoutes);
 
 app.use("/api",urlRoutes);
+
+app.use("/user",userRoutes);
 
 app.get('/api/url/:shortId',async(req,res)=>{
     shortId = req.params.shortId;
