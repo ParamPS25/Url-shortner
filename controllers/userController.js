@@ -1,4 +1,6 @@
 const User = require("../models/user");
+const {v4:uuidv4} = require("uuid");  //This is a destructuring assignment. It extracts the v4 function from the uuid library and assigns it to a new constant named uuidv4. This is done to give the function a more descriptive name and to make it clear that it generates UUIDs of version 4.
+const {setUser,getUser} = require("../services/auth");
 
 async function handleUserSignUp(req,res){
 
@@ -27,6 +29,10 @@ async function handleUserLogin(req,res){
     if(!find_user) return res.render("login.ejs",{
             error:"invalid user or password"
         });
+
+    const sessionId = uuidv4(); //Generate a new UUID v4
+    setUser(sessionId,find_user)  //forget to set User created problems... need to setUser so map session id with ref to user
+    res.cookie("uid",sessionId)  //sets a cookie in the user’s browser named "uid" and value of that cookie is sessionId   
 
     return res.redirect("/");  // else redirect to home
 }
