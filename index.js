@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Url = require("./models/urlModel");
 const express = require("express");
-const {restrictToLoggedinUsersOnly} = require("./middlewares/authMiddleware")
+const {restrictToLoggedinUsersOnly,checkAuth} = require("./middlewares/authMiddleware")
 
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
@@ -23,7 +23,7 @@ app.use(cookieParser());
 app.set('view engine',"ejs");
 app.set("views",path.resolve(("./views")));
 
-app.use("/",staticRoutes);
+app.use("/",checkAuth,staticRoutes);
 
 app.use("/api",restrictToLoggedinUsersOnly,urlRoutes); // passing inline middleware , ensuring that all routes under /api are protected and only accessible to logged-in users
 
