@@ -29,7 +29,7 @@ async function GenerateNewShortUrl(req, res) {
             shortId: generateRandomString(),
             originalUrl: req.body.originalUrl,
             visitHistory: [],
-            createdBy : req.user._id      // as authMiddleware added property to req.user object that will give user wrt to uuid
+            createdBy : req.user._id      // as authMiddleware added property to req.user object that will give user wrt to uuid and here we only need ._id of user to store in document record of url
         });
 
         await newUrl.save();

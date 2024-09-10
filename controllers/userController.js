@@ -11,7 +11,7 @@ async function handleUserSignUp(req,res){
         password,
     });
 
-    return res.redirect("/");  // so user signed up so render home.ejs
+    return res.redirect("/");  // so user signed up so redirect to home
 }
 
 async function handleUserLogin(req,res){
@@ -26,9 +26,8 @@ async function handleUserLogin(req,res){
       });
       
     // if null again render login page
-    if(!find_user) return res.render("login.ejs",{
-            error:"invalid user or password"
-        });
+    if(!find_user) return res.render("login.ejs");         // so will render a view of html ie. login.ejs with response 200 on /user/login
+    // if(!find_user) return res.redirect("/user/login");  // cannot redirect here as no get req on /user/login only post is it check userRoutes so rendering login.ejs 
 
     const sessionId = uuidv4(); //Generate a new UUID v4
     setUser(sessionId,find_user)  //forget to set User created problems... need to setUser so map session id with ref to user

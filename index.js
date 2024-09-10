@@ -20,8 +20,8 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-app.set('view engine',"ejs");
-app.set("views",path.resolve(("./views")));
+app.set('view engine',"ejs");                    //use EJS as the templating engine
+app.set("views",path.resolve(("./views")));     //where your view templates are located. path.resolve('./views') resolves the path to the views directory relative to the root of your project.
 
 app.use("/",checkAuth,staticRoutes);
 
